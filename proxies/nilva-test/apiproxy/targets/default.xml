@@ -1,0 +1,33 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <LoadBalancer>
+        <Algorithm>RoundRobin</Algorithm>
+        <MaxFailures>5</MaxFailures>
+        <ServerUnhealthyResponse>
+            <ResponseCode>500</ResponseCode>
+        </ServerUnhealthyResponse>
+
+        <Server name="nilva-test1" />
+	</LoadBalancer>
+
+    <Path>/v0/test/hello</Path>
+
+    <HealthMonitor>
+      <IsEnabled>true</IsEnabled>
+      <IntervalInSec>5</IntervalInSec>
+      <HTTPMonitor>
+        <Request>
+          <SocketReadTimeoutInSec>30</SocketReadTimeoutInSec>
+          <Port>80</Port>
+          <Verb>GET</Verb>
+          <Path>/healthcheck</Path>
+        </Request>
+        <SuccessResponse>
+          <ResponseCode>200</ResponseCode>
+          <Header name="I am ok">YourOK</Header>
+        </SuccessResponse>
+      </HTTPMonitor>
+    </HealthMonitor>
+  </HTTPTargetConnection>
+
+</TargetEndpoint>
